@@ -2,13 +2,10 @@
 
 use App\Country;
 use App\Covid19;
-use Illuminate\Support\Facades\DB;
 use App\Permission;
 use App\Role;
 use App\User;
-use App\PersonalAccessToken;
 use App\State;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,20 +17,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
-
-        if (env('APP_ENV') === 'production') exit('Fatal! APP is in production');
-
-        //Truncates all tables in the database
-        Schema::disableForeignKeyConstraints();
-
-        $tableNames = Schema::getConnection()->getDoctrineSchemaManager()->listTableNames();
-        foreach ($tableNames as $table) {
-            if ($table != 'migrations')
-                DB::table($table)->truncate();
-        }
-
-        Schema::enableForeignKeyConstraints();
 
         //Test assumes Super Admin should always be id 1
         $role =  Role::create(["role"=> 'Super Admin']);

@@ -3,18 +3,16 @@
 namespace Tests\Feature;
 
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use Tests\TestCase;
 use App\User;
 use App\Country;
-use App\President;
+
 
 
 
 class APIAuthenticationTest extends TestCase
 {
-    use  RefreshDatabase;
 
     public function testGeneratingAPIToken()
     {
@@ -46,7 +44,7 @@ class APIAuthenticationTest extends TestCase
     public function testAccessingAPIWithAuthenticationSucceeds()
     {
 
-        $country = Country::find(1);
+        $country = Country::inRandomOrder()->first();
         factory(User::class,2)->create()->each(function ($user) use ($country) {
 
             $token = $user->createToken('authToken')->plainTextToken;
@@ -92,21 +90,5 @@ class APIAuthenticationTest extends TestCase
                 ]);
         });
     }
-    public function testAPIThrottling(){
 
-        $country = Country::inRandomOrder()->first();
-
-        $user = factory(User::class)->create();
-        $token = $user->createToken('authToken')->plainTextToken;
-
-        $response = $this->get('/api/v1/countries/' . $country->name, ['Authorization' => 'Bearer ' . $token])->assertStatus(200);
-
-        $response->assertHeader('X-RateLimit-Limit');
-
-
-//        for ($i = 0 ; $i < 60; $i++){
-//            $this->get('/api/v1/countries/' . $country->name, ['Authorization' => 'Bearer ' . $token])->assertStatus(200);
-//        }
-//        $this->get('/api/v1/countries/' . $country->name, ['Authorization' => 'Bearer ' . $token])->assertStatus(429);
-    }
 }

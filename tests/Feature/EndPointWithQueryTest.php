@@ -2,8 +2,7 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+
 use App\User;
 use App\Country;
 use App\Helpers\Helper;
@@ -11,6 +10,8 @@ use Tests\TestCase;
 
 class EndPointWithQueryTest extends TestCase
 {
+
+
     private function getToken()
     {
         $user = factory(User::class)->create();

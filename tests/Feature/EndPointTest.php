@@ -8,12 +8,11 @@ use App\Country;
 
 use App\Covid19;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class EndPointTest extends TestCase
 {
+
 
     public function testBaseRoute()
     {
@@ -68,7 +67,7 @@ class EndPointTest extends TestCase
     public function testCountriesShowRoute()
     {
 
-        $countries = Country::where('id','<', 6)->get();
+        $countries = Country::inRandomOrder()->limit(5)->get();
         foreach ($countries as $country) {
 
             $this->get('/api/v1/countries/' . $country->name, ['Authorization' => 'Bearer ' . $this->getToken()])
@@ -188,7 +187,7 @@ class EndPointTest extends TestCase
             ]
         ];
 
-        $countries = Country::inRandomOrder()->limit(2)->get();
+        $countries = Country::inRandomOrder()->limit(5)->get();
 
         foreach ($countries as $country) {
             $number_of_states = $country->states()->count();
